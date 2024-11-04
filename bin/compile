@@ -19,7 +19,7 @@ fi
 YQ_URL="https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_darwin_amd64.tar.gz"
 
 mkdir -p "${YQ_BUILD_DIR}"
-if [[ $(< "$YQ_CACHE_DIR/yq-version") == "$YQ_VERSION" ]]; then
+if  grep -q "$YQ_VERSION" "$YQ_CACHE_DIR/yq-version" ; then
   echo "Using yq $YQ_VERSION from cache"
   cp "${YQ_CACHE_DIR}/*" "${YQ_BUILD_DIR}"
 else
