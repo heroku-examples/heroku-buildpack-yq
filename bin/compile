@@ -30,5 +30,6 @@ else
   cp -R "${YQ_BUILD_DIR}" "${YQ_CACHE_DIR}"
 fi
 
-echo "export PATH=\"$BUILD_DIR/.yq":\$PATH\"" >> "$BUILDPACK_DIR/export"
+mkdir -p "$BUILD_DIR/.profile.d"
 echo "export PATH=\"$HOME/.yq":\$PATH\"" >> "$BUILD_DIR/.profile.d/yq.sh"
+echo "export PATH=\"$BUILD_DIR/.yq":\$PATH\"" >> "$BUILDPACK_DIR/export"
