@@ -16,7 +16,7 @@ if [ -f "$ENV_DIR/YQ_VERSION" ]; then
   YQ_VERSION=$(cat "$ENV_DIR/YQ_VERSION")
 fi
 
-YQ_URL="https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_darwin_amd64.tar.gz"
+YQ_URL="https://github.com/mikefarah/yq/releases/download/v${YQ_VERSION}/yq_linux_amd64.tar.gz"
 
 if [[ -f "$YQ_CACHE_DIR/yq-version" ]] && grep -q "$YQ_VERSION" "$YQ_CACHE_DIR/yq-version" ; then
   echo "Using yq $YQ_VERSION from cache"
@@ -25,11 +25,12 @@ else
   echo "Downloading yq $YQ_VERSION from $YQ_URL"
   mkdir -p "${YQ_BUILD_DIR}"
   curl -sSf --location --retry 3 --retry-connrefused --connect-timeout 10 "${YQ_URL}" | tar -zx -C "${YQ_BUILD_DIR}"
+  mv "${YQ_BUILD_DIR}/yq_linux_amd64" "${YQ_BUILD_DIR}/yq"
   printf "%s" "$YQ_VERSION" > "$YQ_BUILD_DIR/yq-version"
   rm -rf "${YQ_CACHE_DIR}"
   cp -R "${YQ_BUILD_DIR}" "${YQ_CACHE_DIR}"
 fi
 
 mkdir -p "$BUILD_DIR/.profile.d"
-echo "export PATH=\"$HOME/.yq":\$PATH\"" >> "$BUILD_DIR/.profile.d/yq.sh"
-echo "export PATH=\"$BUILD_DIR/.yq":\$PATH\"" >> "$BUILDPACK_DIR/export"
+echo "export PATH=\"$HOME/.yq:\$PATH\"" >> "$BUILD_DIR/.profile.d/heroku-buildpack-yq.sh"
+echo "export PATH=\"$BUILD_DIR/.yq:\$PATH\"" >> "$BUILDPACK_DIR/export"
