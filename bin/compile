@@ -24,7 +24,7 @@ if [[ -f "$YQ_CACHE_DIR/yq-version" ]] && grep -q "$YQ_VERSION" "$YQ_CACHE_DIR/y
   cp "${YQ_CACHE_DIR}/*" "${YQ_BUILD_DIR}"
 else
   echo "Downloading yq $YQ_VERSION from $YQ_URL"
-  curl -sSf --retry 3 --retry-connrefused --connect-timeout 10 "${YQ_URL}" | tar -zx -C "${YQ_BUILD_DIR}"
+  curl -sSf --location --retry 3 --retry-connrefused --connect-timeout 10 "${YQ_URL}" | tar -zx -C "${YQ_BUILD_DIR}"
   printf "%s" "$YQ_VERSION" > "$YQ_BUILD_DIR/yq-version"
   rm -rf "${YQ_CACHE_DIR}"
   mkdir -p "${YQ_CACHE_DIR}"
